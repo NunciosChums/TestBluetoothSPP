@@ -204,6 +204,7 @@ public class DeviceListActivity extends Activity
             if (device.getBondState() != BluetoothDevice.BOND_BONDED)
             {
                mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+               Log.i("DeviceListActivity.java | onReceive", "============================|" + device.getName() + "|" + device.getAddress());
             }
             // When discovery is finished, change the Activity title
          }
@@ -219,5 +220,4 @@ public class DeviceListActivity extends Activity
          }
       }
    };
-   
 }

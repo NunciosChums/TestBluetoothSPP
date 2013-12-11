@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -30,6 +31,19 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/select_device"
             android:theme="@android:style/Theme.Holo.Dialog" />
+
+        <receiver android:name="kr.mint.testbluetoothspp.ConnectionReceiver" >
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="kr.mint.testbluetoothspp.BluetoothSignalReceiver" >
+            <intent-filter>
+                <action android:name="kr.mint.bluetooth.receive" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
