@@ -11,28 +11,28 @@ import android.widget.Toast;
 public class ConnectionReceiver extends BroadcastReceiver
 {
    @Override
-   public void onReceive(Context context, Intent intent)
+   public void onReceive(Context $context, Intent $intent)
    {
-      ContextUtil.CONTEXT = context;
+      ContextUtil.CONTEXT = $context;
       
-      Log.i("ConnectionReceiver.java | onReceive", "|===========" + intent.getAction() + "|");
+      Log.i("ConnectionReceiver.java | onReceive", "|===========" + $intent.getAction() + "|");
       
-      String action = intent.getAction();
+      String action = $intent.getAction();
       
       if (Intent.ACTION_BOOT_COMPLETED.equals(action))
       {
-         reconnect(context, PreferenceUtil.lastConnectedDeviceAddress());
+         reconnect($context, PreferenceUtil.lastConnectedDeviceAddress());
          return;
       }
       
-      BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+      BluetoothDevice device = $intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
       String address = device.getAddress();
       if (TextUtils.isEmpty(address))
          return;
       
       if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action))
       {
-         reconnect(context, address);
+         reconnect($context, address);
       }
       else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action))
       {
@@ -44,8 +44,14 @@ public class ConnectionReceiver extends BroadcastReceiver
          {
             PreferenceUtil.putLastConnectedDeviceAddress(lastRequestAddress);
             Log.i("ConnectionReceiver.java | onReceive", "|" + "연결 완료" + "|" + lastRequestAddress);
-            Toast.makeText(context, "연결되었습니다.", Toast.LENGTH_LONG).show();
-            ReConnectService.instance(context).stopReconnect();
+            Toast.makeText($context, "연결되었습니다.", Toast.LENGTH_LONG).show();
+            ReConnectService.instance($context).stopReconnect();
+            
+            Intent intent = new Intent($context, MainActivity.class);
+            intent.setAction("kr.mint.bluetooth.receive");
+            intent.putExtra("msg", "연결 완료");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            $context.startActivity(intent);
          }
       }
    }

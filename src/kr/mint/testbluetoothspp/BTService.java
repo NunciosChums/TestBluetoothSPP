@@ -177,7 +177,7 @@ public class BTService extends Service
 //               mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                Log.i("BTService.java | run", "|" + bytes2String(buffer, bytes) + "|");
                
-               Intent intent = new Intent("kr.lge.smarthealthcareapps.bluetooth.receive");
+               Intent intent = new Intent("kr.mint.bluetooth.receive");
                intent.putExtra("signal", bytes2String(buffer, bytes));
                _context.sendBroadcast(intent);
             }

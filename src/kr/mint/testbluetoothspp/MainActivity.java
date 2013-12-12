@@ -30,33 +30,6 @@ public class MainActivity extends Activity
       
       _btService = new BTService(getApplicationContext());
       
-//      mHandler = new Handler(new Callback()
-//      {
-//         @Override
-//         public boolean handleMessage(final Message msg)
-//         {
-//            Log.i("MainActivity.java | handleMessage", "|" + msg.what + "|");
-//            runOnUiThread(new Runnable()
-//            {
-//               @Override
-//               public void run()
-//               {
-//                  try
-//                  {
-//                     // TODO 화면에 표시
-//                     byte[] readBuf = (byte[]) msg.obj;
-//                     _text1.setText("|" + bytes2String(readBuf, msg.arg1) + "|");
-//                  }
-//                  catch (Exception e)
-//                  {
-//                     e.printStackTrace();
-//                  }
-//               }
-//            });
-//            return false;
-//         }
-//      });
-      
       mBTAdapter = BluetoothAdapter.getDefaultAdapter();
       if (mBTAdapter == null)
       {
@@ -72,18 +45,16 @@ public class MainActivity extends Activity
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
          }
       }
+      
+      checkIntent(getIntent());
    }
    
    
-   private String bytes2String(byte[] b, int count)
+   @Override
+   protected void onNewIntent(Intent intent)
    {
-      StringBuilder ret = new StringBuilder();
-      for (int i = 0; i < count; i++)
-      {
-         String myInt = Integer.toHexString((int) (b[i] & 0xFF));
-         ret.append("0x" + myInt);
-      }
-      return ret.toString();
+      super.onNewIntent(intent);
+      checkIntent(intent);
    }
    
    
@@ -106,6 +77,17 @@ public class MainActivity extends Activity
          Log.i("MainActivity.java | onActivityResult", "|" + address + "|");
          BluetoothDevice device = mBTAdapter.getRemoteDevice(address);
          _btService.connect(device);
+      }
+   }
+   
+   
+   private void checkIntent(Intent $intent)
+   {
+      Log.i("MainActivity.java | checkIntent", "|" + $intent.getAction() + "|");
+      if ("kr.mint.bluetooth.receive".equals($intent.getAction()))
+      {
+         Log.i("MainActivity.java | checkIntent", "|" + $intent.getStringExtra("msg") + "|");
+         _text1.setText($intent.getStringExtra("msg"));
       }
    }
    
