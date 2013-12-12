@@ -21,7 +21,10 @@ public class ConnectionReceiver extends BroadcastReceiver
       
       if (Intent.ACTION_BOOT_COMPLETED.equals(action))
       {
-         reconnect($context, PreferenceUtil.lastConnectedDeviceAddress());
+//         reconnect($context, PreferenceUtil.lastConnectedDeviceAddress());
+         Log.i("ConnectionReceiver.java | onReceive", "|==" + "연결 시도 중" + "|");
+         BTService btService = new BTService($context);
+         btService.connect(PreferenceUtil.lastConnectedDeviceAddress());
          return;
       }
       

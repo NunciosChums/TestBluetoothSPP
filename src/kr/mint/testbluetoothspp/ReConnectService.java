@@ -1,9 +1,8 @@
 package kr.mint.testbluetoothspp;
 
 import java.util.Timer;
-import java.util.concurrent.Executors;
+import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import android.content.Context;
 import android.util.Log;
@@ -39,30 +38,30 @@ public class ReConnectService
     */
    public void autoReconnect()
    {
-//      TimerTask task = new TimerTask()
-//      {
-//         @Override
-//         public void run()
-//         {
-//            Log.i("ReConnectService.java | run", "|==" + "연결 시도 중" + "|");
-//            BTService btService = new BTService(_context);
-//            btService.connect(PreferenceUtil.lastConnectedDeviceAddress());
-//         }
-//      };
-//      _timer = new Timer();
-//      _timer.schedule(task, 5000, 10000);// 매 분마다 다시 연결한다 
-      
-      _scheduledExecutorService = Executors.newScheduledThreadPool(1);
-      _scheduledExecutorService.scheduleWithFixedDelay(new Runnable()
+      TimerTask task = new TimerTask()
       {
          @Override
          public void run()
          {
-            Log.i("ReConnectService.java | run", "|==" + "연결 시도 중" + "|" + PreferenceUtil.lastConnectedDeviceAddress());
+            Log.i("ReConnectService.java | run", "|==" + "연결 시도 중" + "|");
             BTService btService = new BTService(_context);
             btService.connect(PreferenceUtil.lastConnectedDeviceAddress());
          }
-      }, 5, 10, TimeUnit.SECONDS);
+      };
+      _timer = new Timer();
+      _timer.schedule(task, 5000, 10000);// 매 분마다 다시 연결한다 
+      
+//      _scheduledExecutorService = Executors.newScheduledThreadPool(1);
+//      _scheduledExecutorService.scheduleWithFixedDelay(new Runnable()
+//      {
+//         @Override
+//         public void run()
+//         {
+//            Log.i("ReConnectService.java | run", "|==" + "연결 시도 중" + "|" + PreferenceUtil.lastConnectedDeviceAddress());
+//            BTService btService = new BTService(_context);
+//            btService.connect(PreferenceUtil.lastConnectedDeviceAddress());
+//         }
+//      }, 5, 10, TimeUnit.SECONDS);
    }
    
    
