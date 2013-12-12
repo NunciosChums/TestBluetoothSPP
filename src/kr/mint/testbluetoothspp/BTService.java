@@ -2,6 +2,7 @@ package kr.mint.testbluetoothspp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import android.app.Service;
@@ -11,6 +12,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class BTService extends Service
@@ -105,7 +107,8 @@ public class BTService extends Service
             // Unable to connect; close the socket and get out
             try
             {
-               mmSocket.close();
+               if (mmSocket.isConnected())
+                  mmSocket.close();
             }
             catch (Exception e2)
             {
@@ -172,9 +175,9 @@ public class BTService extends Service
                bytes = mmInStream.read(buffer);
                // Send the obtained bytes to the UI Activity
 //               mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
-//               Log.i("BTService.java | run", "|" + bytes2String(buffer, bytes) + "|");
+               Log.i("BTService.java | run", "|" + bytes2String(buffer, bytes) + "|");
                
-               Intent intent = new Intent("kr.mint.bluetooth.receive");
+               Intent intent = new Intent("kr.lge.smarthealthcareapps.bluetooth.receive");
                intent.putExtra("signal", bytes2String(buffer, bytes));
                _context.sendBroadcast(intent);
             }
@@ -189,13 +192,13 @@ public class BTService extends Service
       
       private String bytes2String(byte[] b, int count)
       {
-         StringBuilder ret = new StringBuilder();
+         ArrayList<String> result = new ArrayList<String>();
          for (int i = 0; i < count; i++)
          {
             String myInt = Integer.toHexString((int) (b[i] & 0xFF));
-            ret.append("0x" + myInt);
+            result.add("0x" + myInt);
          }
-         return ret.toString();
+         return TextUtils.join("-", result);
       }
       
       

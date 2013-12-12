@@ -15,7 +15,7 @@ public class ConnectionReceiver extends BroadcastReceiver
    {
       ContextUtil.CONTEXT = context;
       
-      Log.i("DisconnectedReceiver.java | onReceive", "|===========" + intent.getAction() + "|");
+      Log.i("ConnectionReceiver.java | onReceive", "|===========" + intent.getAction() + "|");
       
       String action = intent.getAction();
       

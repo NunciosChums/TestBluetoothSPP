@@ -13,8 +13,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity
 {
    private static final int REQUEST_ENABLE_BT = 100;
-   private static final int MESSAGE_READ = 200;
-   private static final int REQUEST_CONNECT_DEVICE_INSECURE = 300;
+   private static final int REQUEST_CONNECT_DEVICE_INSECURE = 200;
    
    private BluetoothAdapter mBTAdapter;
    private TextView _text1;
