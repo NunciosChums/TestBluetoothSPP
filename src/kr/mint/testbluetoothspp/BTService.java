@@ -58,7 +58,7 @@ public class BTService extends Service
    
    private void manageConnectedSocket(BluetoothSocket $socket)
    {
-      Log.i("BTService.java | manageConnectedSocket", "|" + $socket.getRemoteDevice().getName() + "|" + $socket.getRemoteDevice().getAddress());
+      Log.i("BTService.java | manageConnectedSocket", "|==" + $socket.getRemoteDevice().getName() + "|" + $socket.getRemoteDevice().getAddress());
       PreferenceUtil.putLastRequestDeviceAddress($socket.getRemoteDevice().getAddress());
       mAdapter.cancelDiscovery();
       ConnectedThread thread = new ConnectedThread($socket);
@@ -101,7 +101,7 @@ public class BTService extends Service
          }
          catch (Exception e1)
          {
-            Log.e("BTService.java | run", "|" + "connect fail" + "|");
+            Log.e("BTService.java | run", "|==" + "connect fail" + "|");
             
             e1.printStackTrace();
             // Unable to connect; close the socket and get out
@@ -175,7 +175,7 @@ public class BTService extends Service
                bytes = mmInStream.read(buffer);
                // Send the obtained bytes to the UI Activity
 //               mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
-               Log.i("BTService.java | run", "|" + bytes2String(buffer, bytes) + "|");
+               Log.i("BTService.java | run", "|==" + bytes2String(buffer, bytes) + "|");
                
                Intent intent = new Intent("kr.mint.bluetooth.receive");
                intent.putExtra("signal", bytes2String(buffer, bytes));

@@ -43,7 +43,7 @@ public class ConnectionReceiver extends BroadcastReceiver
          if (address.equals(lastRequestAddress))
          {
             PreferenceUtil.putLastConnectedDeviceAddress(lastRequestAddress);
-            Log.i("ConnectionReceiver.java | onReceive", "|" + "연결 완료" + "|" + lastRequestAddress);
+            Log.i("ConnectionReceiver.java | onReceive", "|==" + "연결 완료" + "|" + lastRequestAddress);
             Toast.makeText($context, "연결되었습니다.", Toast.LENGTH_LONG).show();
             ReConnectService.instance($context).stopReconnect();
             
@@ -60,14 +60,14 @@ public class ConnectionReceiver extends BroadcastReceiver
    private void reconnect(Context $context, String $address)
    {
       String lastConnectAddress = PreferenceUtil.lastConnectedDeviceAddress();
-      Log.i("ConnectionReceiver.java | onReceive", "|연결 시도할 주소 : " + lastConnectAddress + "|");
+      Log.i("ConnectionReceiver.java | onReceive", "|==연결 시도할 주소 : " + lastConnectAddress + "|");
       if (TextUtils.isEmpty(lastConnectAddress))
          return;
       
       // 연결이 끊기면 1분 마다 스캔을 다시 한다.
       if ($address.equals(lastConnectAddress))
       {
-         Log.i("DisconnectedReceiver.java | onReceive", "|" + "스캔 다시하기" + "|");
+         Log.i("DisconnectedReceiver.java | onReceive", "|==" + "스캔 다시하기" + "|");
          ReConnectService.instance($context).autoReconnect();
       }
    }

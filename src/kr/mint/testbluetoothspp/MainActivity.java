@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -63,7 +64,7 @@ public class MainActivity extends Activity
    {
       super.onActivityResult(requestCode, resultCode, data);
       
-      Log.i("MainActivity.java | onActivityResult", "|" + requestCode + "|" + resultCode + "(ok = " + RESULT_OK + ")|" + data);
+      Log.i("MainActivity.java | onActivityResult", "|==" + requestCode + "|" + resultCode + "(ok = " + RESULT_OK + ")|" + data);
       if (resultCode != RESULT_OK)
          return;
       
@@ -74,7 +75,10 @@ public class MainActivity extends Activity
       else if (requestCode == REQUEST_CONNECT_DEVICE_INSECURE)
       {
          String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-         Log.i("MainActivity.java | onActivityResult", "|" + address + "|");
+         Log.i("MainActivity.java | onActivityResult", "|==" + address + "|");
+         if (TextUtils.isEmpty(address))
+            return;
+         
          BluetoothDevice device = mBTAdapter.getRemoteDevice(address);
          _btService.connect(device);
       }
@@ -83,10 +87,10 @@ public class MainActivity extends Activity
    
    private void checkIntent(Intent $intent)
    {
-      Log.i("MainActivity.java | checkIntent", "|" + $intent.getAction() + "|");
+      Log.i("MainActivity.java | checkIntent", "|==" + $intent.getAction() + "|");
       if ("kr.mint.bluetooth.receive".equals($intent.getAction()))
       {
-         Log.i("MainActivity.java | checkIntent", "|" + $intent.getStringExtra("msg") + "|");
+         Log.i("MainActivity.java | checkIntent", "|==" + $intent.getStringExtra("msg") + "|");
          _text1.setText($intent.getStringExtra("msg"));
       }
    }
